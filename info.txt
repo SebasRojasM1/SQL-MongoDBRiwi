@@ -1,0 +1,39 @@
+PREGUNTAS:
+-Que es un modelo entidad relación:
+R//Es una tecnica que se utiliza para describir la estructura de la base de datos, mencionando las entidades a usarse y como se pueden relacionar entre ellas.
+Se destaca por definir las entidades, atributos y sus relaciones.
+
+
+
+-Que es un Diagrama entidad relación:
+R//Es un tipo de diagrama de flujo (Grafica) que muestra entidades, como personas u objetos, se relacionan entre sí dentro de un sistema. 
+Se usan diseñar o depurar bases de datos relacionales
+
+
+
+-Que es una llave primaria:
+R//Es un campo(s) que identifican cada registro en una tabla para darle integridad de los datos en la base de datos.
+Es un identificador único para cada fila en una tabla, asegurando que no haya duplicados y acceder de manera referenciada entre tablas relacionadas.
+
+
+
+-Que es una llave foránea:
+R//Es una columna(s) en una tabla cuyos valores corresponden a los valores de la clave primaria de otra tabla. 
+Para ello, debe existir una fila en la tabla relacionada con el mismo valor de clave primaria.
+Las columnas en la tabla referenciada deben ser la clave primaria.
+
+
+
+-Que es una relación 1:1 (uno a uno):
+R//Es un vínculo entre la información de dos tablas, donde cada registro en cada tabla solo aparece una vez.
+Puede usar las relaciones uno a uno si tiene una tabla que contienen una lista de elementos.
+
+
+-Que es una relación 1:* (uno a muchos):
+R//En una relación de uno a muchos, es cuando un unico registro de una tabla se puede asociar a uno o varios registros que contiene otra tabla. 
+
+
+-Que es una relación *:* (muchos a muchos):
+R//Se refiere a una relación donde varios registros de una tabla están relacionados con varios registros en otra tabla, y viceversa. 
+
+
