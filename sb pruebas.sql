@@ -1,4 +1,4 @@
--- Active: 1709034310163@@bbcpw4c089mchxnbdyry-mysql.services.clever-cloud.com@3306@bbcpw4c089mchxnbdyry
+-- Active: 1709307028231@@bbcpw4c089mchxnbdyry-mysql.services.clever-cloud.com@3306@bbcpw4c089mchxnbdyry
 show DATABASES;
 
 -- phpMyAdmin SQL Dump
@@ -20206,3 +20206,152 @@ SELECT pais, COUNT(id) FROM users WHERE pais = "ecuador"
 
 /*20. Cuantos usuarios son de Colombia y les gusta el vallenato*/
 SELECT pais, musica, COUNT(id) FROM users WHERE pais = "colombia" AND musica = "vallenato"
+
+
+
+
+/*VIEWS*/
+CREATE VIEW view_mayor_de_edad AS SELECT nombres, apellidos, edad, genero FROM users 
+WHERE edad >= 18;
+
+SELECT * FROM view_mayor_de_edad
+
+
+CREATE VIEW view_email AS SELECT * FROM users 
+WHERE correo LIKE '%@gmail.com';
+
+SELECT * FROM view_email
+
+
+CREATE VIEW view_users_colombia_ancianos AS SELECT nombres, apellidos, pais, edad FROM users
+WHERE pais = "colombia" AND edad >= 60
+
+SELECT * FROM view_users_colombia_ancianos
+
+
+
+CREATE VIEW view_jovenes_punk AS SELECT nombres, apellidos, edad, musica FROM users
+WHERE musica = "punk" AND edad < 18
+
+SELECT * FROM view_jovenes_punk
+
+
+
+CREATE VIEW view_colombia_orden_joven AS SELECT nombres, apellidos, edad, pais FROM users
+WHERE edad = 18 AND pais = 'colombia' ORDER BY nombres ASC;
+
+SELECT * FROM view_colombia_orden_joven
+
+
+
+
+
+
+/* PROCEDIMIENTOS */
+/*1. Cambiar usuario*/
+DELIMITER //
+CREATE PROCEDURE cambiarEmail(
+  IN nombreUsuario VARCHAR(155),
+  IN correoUsuario VARCHAR(155)
+)
+BEGIN
+  UPDATE users
+  SET correo = correoUsuario
+  WHERE nombres = nombreUsuario;
+END 
+DELIMITER;
+
+CALL cambiarEmail('Juana McLaughlin', 'lasensaciondelbloque@hotmail.com');
+
+
+SELECT * FROM users;
+
+
+
+
+/*2. Eliminar usuario*/
+DELIMITER //
+CREATE PROCEDURE eliminarUsuario(
+  IN idDelete INT
+)
+BEGIN
+  DELETE FROM users WHERE id = idDelete;
+END //
+DELIMITER ;
+
+CALL eliminarUsuario (3)
+
+SELECT * FROM users;
+
+
+
+/*3. Actualizar genero musical*/
+DELIMITER //
+CREATE PROCEDURE cambiarMusica(
+  IN musicaNueva VARCHAR(155)
+)
+BEGIN
+  UPDATE users
+  SET musica = musicaNueva
+  WHERE musica = "merengue";
+END 
+DELIMITER;
+
+CALL cambiarMusica('guaracha');
+
+
+SELECT * FROM users;
+
+
+
+/*4. Actualizar usuario (completo)*/
+DELIMITER //
+CREATE PROCEDURE modificarUsuario(
+  IN identificador INT,
+  IN nombreNuevo VARCHAR(155),
+  IN apellidoNuevo VARCHAR(155),
+  IN correoNuevo VARCHAR(155),
+  IN edadNuevo INT,
+  IN paisNuevo VARCHAR(155),
+  IN musicaNuevo VARCHAR(155)
+)
+BEGIN
+  UPDATE users
+  SET nombres = nombreNuevo,
+      apellidos = apellidoNuevo,
+      correo = correoNuevo,
+      edad = edadNuevo,
+      pais = paisNuevo,
+      musica = musicaNuevo
+  WHERE id = identificador;
+END
+DELIMITER ;
+
+CALL modificarUsuario(5, "Sebastian", "Rojas", "Sebasrojasm1@hotmail.com", 24, "colombia", "salsa");
+
+
+SELECT * FROM users;
+
+
+
+/*5. Agregar un usuario nuevo*/
+DELIMITER //
+CREATE PROCEDURE agregarUsuario (
+    IN nombreNuevo VARCHAR(155),
+    IN apellidosNuevo VARCHAR(155),
+    IN correoNuevo VARCHAR(155),
+    IN edadNuevo INT,
+    IN generoNuevo VARCHAR(155),
+    IN paisNuevo VARCHAR(155),
+    IN musicaNuevo VARCHAR(155)
+)
+BEGIN
+    INSERT INTO users (nombres, apellidos, correo, edad, genero, pais, musica, created_at, updated_at) 
+    VALUES (nombreNuevo, apellidosNuevo, correoNuevo, edadNuevo, generoNuevo, paisNuevo, musicaNuevo, NOW(), NOW());
+END 
+DELIMITER ;
+
+CALL agregarUsuario("Sebastian", "Marin", "Sebasrojasm2@hotmail.com", 23, "H", "colombia", "tecno");
+
+
+SELECT * FROM users ORDER BY id DESC;
